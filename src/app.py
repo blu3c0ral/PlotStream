@@ -175,6 +175,7 @@ def render_visualization(
             function_data["x_col"],
             function_data["y_col"],
             reference_name=function_data["function"].__name__,
+            row_major=function_data["row_major"],
         )
 
         series_data = {"data": data, **config}

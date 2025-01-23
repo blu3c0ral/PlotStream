@@ -5,7 +5,7 @@ import dill
 from typing import Dict, Union, Callable
 from inspect import signature, Parameter
 
-FunctionData = Dict[str, Union[str, Callable, Dict[str, Union[str, float, int]]]]
+FunctionData = Dict[str, Union[str, Callable, Dict[str, Union[str, float, int]], bool]]
 
 pkl_filename = "functions.pkl"
 
@@ -22,7 +22,7 @@ color_index = 0  # To track the current color
 series_counter = 1  # To track the current series number
 
 
-def register_function(
+def plotstream_function(
     name: str = None,
     graph: str = "Default Graph",
     chart_type: str = "Line",
@@ -31,6 +31,7 @@ def register_function(
     color: str = None,
     x_col: Union[str, None, int] = None,
     y_col: Union[str, None, int] = None,
+    row_major: bool = True,
 ):
     """
     A decorator to register a function in the FUNCTIONS dictionary.
@@ -44,6 +45,7 @@ def register_function(
         color (str): Default color of the series (hex code).
         x_col (str|None|int): Name of the column for the x-axis or the index of it in a 2D array.
         y_col (str|None|int): Name of the column for the y-axis or the index of it in a 2D array.
+        row_major (bool): Whether to treat the array as row-major (default) or column-major. If not an array, this parameter is ignored.
     """
 
     def decorator(func: Callable) -> Callable:
@@ -88,6 +90,7 @@ def register_function(
             "color": auto_color,
             "x_col": x_col,
             "y_col": y_col,
+            "row_major": row_major,
         }
         print(f"Registered function: {auto_name}")
 

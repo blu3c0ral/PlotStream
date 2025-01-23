@@ -150,6 +150,7 @@ def process_data(
     x_axis: Optional[Union[str, int]] = None,
     y_axis: Optional[Union[str, int]] = None,
     reference_name: Optional[str] = None,
+    row_major: bool = True,
 ) -> dict:
     """
     Processes the data for the selected series.
@@ -174,6 +175,7 @@ def process_data(
     :param x_axis:
     :param y_axis:
     :param reference_name: The name of the series.
+    :param row_major: Whether to treat the array as row-major (default) or column-major. If not an array, this parameter is ignored.
     :return: {'x': Union[pd.Series, np.ndarray, List[Any]], 'y': Union[pd.Series, np.ndarray, List[Any]]}
     """
 
@@ -188,7 +190,7 @@ def process_data(
 
     elif isinstance(series, list) or isinstance(series, np.ndarray):
         # Handle the case where the input is a list or a NumPy array
-        return process_data_array(series, x_axis, y_axis, reference_name)
+        return process_data_array(series, x_axis, y_axis, reference_name, row_major)
 
     else:
         # Unsupported type
