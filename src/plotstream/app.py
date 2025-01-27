@@ -51,7 +51,8 @@ def collect_user_inputs(
 ) -> tuple[dict, dict]:
     """Collects user inputs for a specific function in the sidebar."""
     series_name = function_data.get("name", function_data["function"].__name__)
-    st.sidebar.markdown(f"### {series_name}:")
+    st.sidebar.markdown(f"---")
+    st.sidebar.markdown(f"## ***`{series_name}`:***")
 
     inputs: Dict[str, Any] = cast(Dict[str, Any], function_data["inputs"])
     chart_type: str = cast(str, function_data.get("type", "Line"))
@@ -59,12 +60,12 @@ def collect_user_inputs(
 
     # Add checkboxes for secondary Y-axis and secondary graph
     secondary_y_axis = st.sidebar.checkbox(
-        f"Use Secondary Y-Axis (Series {series_index + 1})",
+        f"Secondary Y-Axis",
         value=function_data.get("secondary_y_axis", False),
         key=f"secondary_y_axis_series_{series_index}",
     )
     secondary_graph = st.sidebar.checkbox(
-        f"Use Secondary Graph (Series {series_index + 1})",
+        f"Secondary Graph",
         value=function_data.get("secondary_graph", False),
         key=f"secondary_graph_series_{series_index}",
     )
@@ -204,7 +205,7 @@ def render_visualization(
         st.plotly_chart(fig, use_container_width=True)
 
     if all_series_secondary_graph:
-        st.markdown("### Secondary Graph")
+        # st.markdown("### Secondary Graph")
         for series in all_series_secondary_graph:
             fig = create_figure([series])  # Pass as a single-item list
             st.plotly_chart(fig, use_container_width=True)
