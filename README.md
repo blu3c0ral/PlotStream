@@ -107,6 +107,8 @@ When using `@plotstream_function`, you can customize the visualization with the 
 - Add support for more data formats (including multi graphs for multi columns DataFrames).
 - Add support for more controls (e.g., sliders, dropdowns, etc.).
 - Provide enhanced error handling and logging.
+- Ignore unsupported input data types.
+- Function naming in legend.
 
 ---
 

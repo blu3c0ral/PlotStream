@@ -33,7 +33,6 @@ def group_functions_by_graph(
     functions: Dict[str, FunctionData]
 ) -> Dict[str, List[FunctionData]]:
     print("FUNCTIONS:", functions)
-    """Groups functions by their graph names."""
     grouped_graphs: Dict[str, List[FunctionData]] = {}
     for function_name, function_data in functions.items():
         try:
@@ -51,9 +50,8 @@ def collect_user_inputs(
     function_data: FunctionData, series_index: int
 ) -> tuple[dict, dict]:
     """Collects user inputs for a specific function in the sidebar."""
-    st.sidebar.markdown(
-        f"### Series {series_index + 1}: {function_data['function'].__name__}"
-    )
+    series_name = function_data.get("name", function_data["function"].__name__)
+    st.sidebar.markdown(f"### {series_name}:")
 
     inputs: Dict[str, Any] = cast(Dict[str, Any], function_data["inputs"])
     chart_type: str = cast(str, function_data.get("type", "Line"))
@@ -128,6 +126,7 @@ def add_traces_to_figure(
         data = series["data"]
         chart_type = series["chart_type"]
         color = series["color"]
+        name = series.get("name", f"{yaxis} Axis")
 
         if chart_type == "Line":
             fig.add_trace(
@@ -136,7 +135,7 @@ def add_traces_to_figure(
                     y=data["y"],
                     mode="lines",
                     line=dict(color=color),
-                    name=f"{yaxis} Axis",
+                    name=name,
                     yaxis=yaxis,
                 )
             )
@@ -147,7 +146,7 @@ def add_traces_to_figure(
                     y=data["y"],
                     mode="markers",
                     marker=dict(color=color),
-                    name=f"{yaxis} Axis",
+                    name=name,
                     yaxis=yaxis,
                 )
             )
@@ -158,7 +157,7 @@ def render_visualization(
     selected_graph_name: str, selected_functions: List[FunctionData]
 ) -> None:
     """Renders the visualization for the selected graph."""
-    st.title(f"Visualization: {selected_graph_name}")
+    st.title(f"{selected_graph_name}")
 
     all_series_primary = []
     all_series_secondary_y = []
@@ -178,7 +177,11 @@ def render_visualization(
             row_major=function_data["row_major"],
         )
 
-        series_data = {"data": data, **config}
+        series_data = {
+            "data": data,
+            **config,
+            "name": function_data.get("name", function_data["function"].__name__),
+        }
 
         if config["secondary_graph"]:
             all_series_secondary_graph.append(series_data)
@@ -191,12 +194,12 @@ def render_visualization(
         fig = create_figure(all_series_primary, yaxis="y")
         add_traces_to_figure(fig, all_series_secondary_y, yaxis="y2")
 
-        fig.update_layout(
-            yaxis2=dict(title="Secondary Y Axis", overlaying="y", side="right"),
-            title="Primary and Secondary Y-Axis",
-            xaxis_title="X Axis",
-            yaxis_title="Primary Y Axis",
-        )
+        # fig.update_layout(
+        #     yaxis2=dict(title="Secondary Y Axis", overlaying="y", side="right"),
+        #     title="Primary and Secondary Y-Axis",
+        #     xaxis_title="X Axis",
+        #     yaxis_title="Primary Y Axis",
+        # )
 
         st.plotly_chart(fig, use_container_width=True)
 

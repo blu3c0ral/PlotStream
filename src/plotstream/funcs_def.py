@@ -7,7 +7,7 @@ from inspect import signature, Parameter
 
 FunctionData = Dict[str, Union[str, Callable, Dict[str, Union[str, float, int]], bool]]
 
-pkl_filename = "functions.pkl"
+pkl_filename = "../functions.pkl"
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
 
@@ -52,7 +52,7 @@ def plotstream_function(
         global color_index, series_counter
 
         # Automatically assign a name if not provided
-        auto_name = name if name else f"Series {series_counter}"
+        auto_name = name if name else func.__name__
         series_counter += 1  # Increment the series counter
 
         # Automatically assign a color if not provided

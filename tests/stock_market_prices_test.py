@@ -1,6 +1,6 @@
 import pandas as pd
 
-from PlotStream import run_plotstream_app, plotstream_function
+from plotstream import run_plotstream_app, plotstream_function
 
 
 @plotstream_function()
@@ -25,4 +25,4 @@ def get_stock_prices_2():
 print(get_stock_prices())
 print(get_stock_prices_2())
 
-run_plotstream_app()  # Defined in PlotStream/__init__.py
+run_plotstream_app()  # Defined in plotstream/__init__.py

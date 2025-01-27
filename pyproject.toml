@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "plotstream"
-version = "0.1.0"
+version = "0.2.6"
 authors = [
   { name="blu3c0ral", email="blu3c0ral@protonmail.ch" },
 ]
@@ -22,12 +22,12 @@ dependencies = [
     "numpy",
     "dill",
     "plotly",
+    "scipy",
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/blu3c0ral/PlotStream"
 "Bug Tracker" = "https://github.com/blu3c0ral/PlotStream/issues"
 
-[tool.setuptools]
-packages = ["plotstream"]
-package-dir = {""= "src"}
+[tool.setuptools.packages.find]
+where = ["src"]
